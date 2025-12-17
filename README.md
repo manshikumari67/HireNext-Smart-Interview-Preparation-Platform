@@ -1,7 +1,7 @@
 
-# 🚀 NextHire  
+# 🚀HireNext  
 
-**NextHire** is a smart **interview preparation platform** designed to help candidates practice, learn, and improve their skills.  
+**HireNext** is a smart **interview preparation platform** designed to help candidates practice, learn, and improve their skills.  
 It provides topic-wise **Q&A forums, quizzes, leaderboards, and user statistics** to track progress effectively.  
 
 ---
