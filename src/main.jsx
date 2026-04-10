@@ -3,12 +3,15 @@ import './index.css'
 import App from './App.jsx'
 import {BrowserRouter} from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import { Provider } from 'react-redux'
+import { store } from './store/store.js'
 import "react-toastify/dist/ReactToastify.css"
 
 createRoot(document.getElementById('root')).render(
- <BrowserRouter>
-    <App />
-    <ToastContainer position="top-center"/>
- </BrowserRouter>
-    
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+      <ToastContainer position="top-center"/>
+    </BrowserRouter>
+  </Provider>
 )

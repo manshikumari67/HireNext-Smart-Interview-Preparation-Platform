@@ -1,7 +1,7 @@
 // src/App.jsx
 import './App.css';
-import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import NavBar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -18,29 +18,31 @@ import PrivateRoute from './components/PrivateRoute';
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const location = useLocation();
 
   return (
-    <div className="w-full h-full bg-gradient-to-br from-blue-300 via-white to-purple-700 flex flex-col">
-      <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-        <ScrollToTop />
+    <div className="w-full min-h-screen bg-gradient-to-br from-blue-300 via-white to-purple-700 flex flex-col">
+      <NavBar />
+      <ScrollToTop />
 
-      <Routes>
-        <Route path='/' element={<Home questions={questions} />} />
-        <Route path='/login' element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path='/signup' element={<SignUp setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path='/askQuestion' element={<AskQuestion />} />
-        <Route path='/quiz' element={<Quiz />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path="/edit-profile" element={<EditProfile />} />
+      <div className="flex-1">
+        <Routes location={location}>
+          <Route path='/' element={<Home questions={questions} />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/askQuestion' element={<AskQuestion />} />
+          <Route path='/quiz' element={<Quiz />} />
 
-
-        {/* Private routes */}
-        <Route element={<PrivateRoute isLoggedIn={isLoggedIn} />}>
-          <Route path='/qa/:topic' element={<QA />} />
-          <Route path='/result' element={<Result />} />
-        </Route>
-      </Routes>
+          {/* Private routes */}
+          <Route element={<PrivateRoute />}>
+            <Route path='/profile' element={<Profile />} />
+            <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path='/qa/:topic' element={<QA />} />
+            <Route path='/result' element={<Result />} />
+          </Route>
+        </Routes>
+      </div>
 
       <Footer />
     </div>
