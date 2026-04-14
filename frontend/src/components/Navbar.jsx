@@ -20,7 +20,7 @@ const Navbar = () => {
   };
 
   const navLinkClass = (path) => `
-    flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200
+    flex items-center gap-2 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 text-xs sm:text-base
     ${isActive(path) 
       ? 'bg-blue-50 text-blue-600' 
       : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
@@ -40,9 +40,9 @@ const Navbar = () => {
           <div className="flex items-center ml-6">
             <Link to="/" className="flex items-center space-x-2 group">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
-                <LuBrain className="w-5 h-5 text-white" />
+                <LuBrain className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 HireNext
               </span>
             </Link>
@@ -50,40 +50,41 @@ const Navbar = () => {
 
           {/* Desktop navigation */}
           <nav className="hidden md:block">
-            <ul className="flex gap-x-4 text-base">
-              <li><Link to="/" className={navLinkClass('/')}><HiHome size={18} /><span>Home</span></Link></li>
+            <ul className="flex gap-x-1 lg:gap-x-4 text-base">
+              <li><Link to="/" className={navLinkClass('/')}><HiHome size={16} className="sm:w-[18px] sm:h-[18px]" /><span className="hidden lg:inline">Home</span></Link></li>
               <li>
                 <Link to="/askQuestion" className={navLinkClass('/askQuestion')}>
-                  <HiPlusCircle size={18} />
-                  <span>Ask Question</span>
+                  <HiPlusCircle size={16} className="sm:w-[18px] sm:h-[18px]" />
+                  <span className="hidden xl:inline">Ask Q</span>
                 </Link>
               </li>
-              <li><Link to="/quiz" className={navLinkClass('/quiz')}><HiLightBulb size={18} /><span>Quiz</span></Link></li>
-              <li><Link to="/result" className={navLinkClass('/result')}><HiOutlineTrophy size={18} /><span>Results</span></Link></li>
+              <li><Link to="/quiz" className={navLinkClass('/quiz')}><HiLightBulb size={16} className="sm:w-[18px] sm:h-[18px]" /><span className="hidden lg:inline">Quiz</span></Link></li>
+              <li><Link to="/leaderboard" className={navLinkClass('/leaderboard')}><HiOutlineTrophy size={16} className="sm:w-[18px] sm:h-[18px]" /><span className="hidden lg:inline">LB</span></Link></li>
+              <li><Link to="/result" className={navLinkClass('/result')}><HiOutlineTrophy size={16} className="sm:w-[18px] sm:h-[18px]" /><span className="hidden lg:inline">Results</span></Link></li>
             </ul>
           </nav>
 
           {/* Right: Auth buttons */}
           <div className="flex items-center gap-3">
             {/* Desktop Auth */}
-            <div className="hidden md:flex gap-3">
+            <div className="hidden md:flex gap-2 lg:gap-3">
               {!isLoggedIn ? (
                 <>
                   <Link to="/login">
-                    <button className={authBtnClass}>Log In</button>
+                    <button className="py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg transition-all duration-200 font-medium text-xs sm:text-sm bg-blue-50 text-blue-600 hover:bg-blue-100">Log In</button>
                   </Link>
                   <Link to="/signup">
-                    <button className={authBtnClass}>Sign Up</button>
+                    <button className="py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg transition-all duration-200 font-medium text-xs sm:text-sm bg-blue-50 text-blue-600 hover:bg-blue-100">Sign Up</button>
                   </Link>
                 </>
               ) : (
                 <>
                   <Link to="/profile">
-                    <button className={authBtnClass}>
-                      {user?.name || 'Profile'}
+                    <button className="py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg transition-all duration-200 font-medium text-xs sm:text-sm bg-blue-50 text-blue-600 hover:bg-blue-100">
+                      {user?.name?.split(' ')[0] || 'Profile'}
                     </button>
                   </Link>
-                  <button onClick={handleLogout} className={authBtnClass}>
+                  <button onClick={handleLogout} className="py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg transition-all duration-200 font-medium text-xs sm:text-sm bg-blue-50 text-blue-600 hover:bg-blue-100">
                     Logout
                   </button>
                 </>
@@ -105,16 +106,19 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-200 transition-all duration-200 backdrop-blur-sm">
             <div className="px-4 pt-3 pb-4 space-y-1">
-              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className={navLinkClass('/')}>
+              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className={`${navLinkClass('/')} text-sm`}>
                 <HiHome size={18} /> Home
               </Link>
-              <Link to="/askQuestion" onClick={() => setIsMobileMenuOpen(false)} className={navLinkClass('/askQuestion')}>
+              <Link to="/askQuestion" onClick={() => setIsMobileMenuOpen(false)} className={`${navLinkClass('/askQuestion')} text-sm`}>
                 <HiPlusCircle size={18} /> Ask Question
               </Link>
-              <Link to="/quiz" onClick={() => setIsMobileMenuOpen(false)} className={navLinkClass('/quiz')}>
+              <Link to="/quiz" onClick={() => setIsMobileMenuOpen(false)} className={`${navLinkClass('/quiz')} text-sm`}>
                 <HiLightBulb size={18} /> Quiz
               </Link>
-              <Link to="/result" onClick={() => setIsMobileMenuOpen(false)} className={navLinkClass('/result')}>
+              <Link to="/leaderboard" onClick={() => setIsMobileMenuOpen(false)} className={`${navLinkClass('/leaderboard')} text-sm`}>
+                <HiOutlineTrophy size={18} /> Leaderboard
+              </Link>
+              <Link to="/result" onClick={() => setIsMobileMenuOpen(false)} className={`${navLinkClass('/result')} text-sm`}>
                 <HiOutlineTrophy size={18} /> Results
               </Link>
 
@@ -123,12 +127,12 @@ const Navbar = () => {
                 {!isLoggedIn ? (
                   <>
                     <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                      <button className="w-full py-2 rounded-lg mb-2 font-medium transition-all bg-blue-600 text-white hover:bg-blue-700">
+                      <button className="w-full py-2 rounded-lg mb-2 font-medium text-sm transition-all bg-blue-600 text-white hover:bg-blue-700">
                         Log In
                       </button>
                     </Link>
                     <Link to="/signup" onClick={() => setIsMobileMenuOpen(false)}>
-                      <button className="w-full py-2 rounded-lg font-medium transition-all bg-gray-600 text-white hover:bg-gray-700">
+                      <button className="w-full py-2 rounded-lg font-medium text-sm transition-all bg-gray-600 text-white hover:bg-gray-700">
                         Sign Up
                       </button>
                     </Link>
@@ -136,7 +140,7 @@ const Navbar = () => {
                 ) : (
                   <>
                     <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)}>
-                      <button className="w-full py-2 rounded-lg mb-2 font-medium transition-all bg-blue-600 text-white hover:bg-blue-700">
+                      <button className="w-full py-2 rounded-lg mb-2 font-medium text-sm transition-all bg-blue-600 text-white hover:bg-blue-700">
                         Profile
                       </button>
                     </Link>

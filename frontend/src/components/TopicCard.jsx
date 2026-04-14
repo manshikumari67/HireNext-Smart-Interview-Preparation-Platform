@@ -41,21 +41,21 @@ const TopicCard = ({ topic, color = "from-pink-600 to-blue-600" }) => {
       "></div>
 
       {/* Content */}
-      <div className="relative p-8 sm:p-10 text-center text-white min-h-[200px] flex flex-col justify-center">
+      <div className="relative p-6 sm:p-8 md:p-10 text-center text-white min-h-[180px] sm:min-h-[200px] flex flex-col justify-center">
         {/* Title */}
-        <h2 className="text-2xl sm:text-3xl font-bold mb-4 transition-transform duration-300 group-hover:scale-110">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
           {topic}
         </h2>
 
         {/* Subtle description */}
-        <p className="text-white/70 text-sm mb-6 group-hover:text-white transition-colors duration-300">
+        <p className="text-white/70 text-xs sm:text-sm mb-4 sm:mb-6 group-hover:text-white transition-colors duration-300">
           Master interview questions & solutions
         </p>
 
         {/* Button */}
         <button className="
-          px-6 py-3 rounded-full font-semibold shadow-lg transition-all duration-300
-          flex items-center justify-center gap-2 mx-auto group-hover:gap-3
+          px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold shadow-lg transition-all duration-300
+          flex items-center justify-center gap-2 mx-auto group-hover:gap-3 text-sm sm:text-base
           bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 border border-white/30
         ">
           <span>Explore</span>

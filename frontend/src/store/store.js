@@ -64,23 +64,39 @@ const quizSlice = createSlice({
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    isLoggedIn: false,
-    user: null,
-    token: localStorage.getItem('authToken') || null,
+    isLoggedIn: !!localStorage.getItem("token"),
+
+    user: (() => {
+      try {
+        const stored = localStorage.getItem("user");
+        return stored ? JSON.parse(stored) : null;
+      } catch {
+        return null;
+      }
+    })(),
+
+    token: localStorage.getItem("token") || null,
   },
+
   reducers: {
     login: (state, action) => {
       state.isLoggedIn = true;
       state.user = action.payload.user;
       state.token = action.payload.token;
-      localStorage.setItem('authToken', action.payload.token);
+
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
     },
+
     logout: (state) => {
       state.isLoggedIn = false;
       state.user = null;
       state.token = null;
-      localStorage.removeItem('authToken');
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
+
     setUser: (state, action) => {
       state.user = action.payload;
     },

@@ -23,13 +23,13 @@ const Result = () => {
 
   if (!results) {
     return (
-      <div className="max-w-4xl h-screen mx-auto text-center py-16">
-        <FaTrophy className="w-16 h-16 text-black mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-black mb-4">No Quiz Results Found</h2>
-        <p className="text-gray-500 mb-8">Take a quiz to see your results here.</p>
+      <div className="max-w-4xl h-screen mx-auto text-center py-12 sm:py-16 px-4">
+        <FaTrophy className="w-12 sm:w-16 h-12 sm:h-16 text-black mx-auto mb-3 sm:mb-4" />
+        <h2 className="text-xl sm:text-2xl font-bold text-black mb-3 sm:mb-4">No Quiz Results Found</h2>
+        <p className="text-sm sm:text-base text-gray-500 mb-6 sm:mb-8">Take a quiz to see your results here.</p>
         <Link
           to="/quiz"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-800 text-white font-semibold rounded-xl transition-all duration-200"
+          className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-purple-600 hover:bg-purple-800 text-white font-semibold rounded-lg sm:rounded-xl transition-all duration-200 text-sm sm:text-base"
         >
           <FiTarget size={18} />
           Take a Quiz
@@ -38,9 +38,7 @@ const Result = () => {
     );
   }
 
-  const correctAnswers = results.userAnswers.filter((answer, index) =>
-    answer === results.questions[index].correctAnswer
-  ).length;
+  const correctAnswers = results.score || 0;
 
   const totalQuestions = results.questions.length;
   const percentage = Math.round((correctAnswers / totalQuestions) * 100);
@@ -74,58 +72,58 @@ const Result = () => {
   };
 
   return (
-    <div className="max-w-4xl h-full mt-10 mx-auto space-y-8">
+    <div className="max-w-4xl h-full mt-6 sm:mt-10 mx-auto space-y-6 sm:space-y-8 px-4 sm:px-6 pb-6 sm:pb-8">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Quiz Results</h1>
-        <p className="text-lg text-gray-600">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Quiz Results</h1>
+        <p className="text-sm sm:text-base md:text-lg text-gray-600">
           Here's how you performed on the {results.topic} quiz
         </p>
       </div>
 
       {/* Score Summary */}
       {showSummary && (
-        <div className={`rounded-2xl shadow-lg border p-8 ${getScoreBg(percentage)}`}>
-          <div className="text-center mb-6">
-            <div className={`text-6xl font-bold mb-2 ${getScoreColor(percentage)}`}>
+        <div className={`rounded-lg sm:rounded-2xl shadow-lg border p-4 sm:p-6 md:p-8 ${getScoreBg(percentage)}`}>
+          <div className="text-center mb-4 sm:mb-6">
+            <div className={`text-4xl sm:text-6xl font-bold mb-2 sm:mb-3 ${getScoreColor(percentage)}`}>
               {percentage}%
             </div>
-            <div className="text-xl text-gray-700 mb-4">
+            <div className="text-base sm:text-xl text-gray-700 mb-3 sm:mb-4">
               {correctAnswers} out of {totalQuestions} correct
             </div>
 
             {percentage >= 80 && (
-              <div className="flex items-center justify-center gap-2 text-green-700 font-semibold">
+              <div className="flex items-center justify-center gap-2 text-green-700 font-semibold text-sm sm:text-base">
                 <FaTrophy size={20} />
                 Excellent Performance!
               </div>
             )}
             {percentage >= 60 && percentage < 80 && (
-              <div className="flex items-center justify-center gap-2 text-yellow-700 font-semibold">
+              <div className="flex items-center justify-center gap-2 text-yellow-700 font-semibold text-sm sm:text-base">
                 <FiTarget size={20} />
                 Good Job!
               </div>
             )}
             {percentage < 60 && (
-              <div className="flex items-center justify-center gap-2 text-red-700 font-semibold">
+              <div className="flex items-center justify-center gap-2 text-red-700 font-semibold text-sm sm:text-base">
                 <FaRedoAlt size={20} />
                 Keep Practicing!
               </div>
             )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-            <div className="bg-white bg-opacity-50 rounded-xl p-4">
-              <div className="text-2xl font-bold text-gray-800">{results.topic}</div>
-              <div className="text-sm text-gray-600">Topic</div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-center">
+            <div className="bg-white bg-opacity-50 rounded-lg sm:rounded-xl p-3 sm:p-4">
+              <div className="text-lg sm:text-2xl font-bold text-gray-800">{results.topic}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Topic</div>
             </div>
-            <div className="bg-white bg-opacity-50 rounded-xl p-4">
-              <div className="text-2xl font-bold text-gray-800">{totalQuestions}</div>
-              <div className="text-sm text-gray-600">Questions</div>
+            <div className="bg-white bg-opacity-50 rounded-lg sm:rounded-xl p-3 sm:p-4">
+              <div className="text-lg sm:text-2xl font-bold text-gray-800">{totalQuestions}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Questions</div>
             </div>
-            <div className="bg-white bg-opacity-50 rounded-xl p-4">
-              <div className="text-2xl font-bold text-gray-800">{formatTime(results.timeSpent)}</div>
-              <div className="text-sm text-gray-600">Time Spent</div>
+            <div className="bg-white bg-opacity-50 rounded-lg sm:rounded-xl p-3 sm:p-4">
+              <div className="text-lg sm:text-2xl font-bold text-gray-800">{formatTime(results.timeSpent)}</div>
+              <div className="text-xs sm:text-sm text-gray-600">Time Spent</div>
             </div>
           </div>
         </div>
@@ -133,8 +131,8 @@ const Result = () => {
 
       {/* Question Review */}
       {!showSummary && (
-        <div className="space-y-4 ">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Question Review</h2>
+        <div className="space-y-3 sm:space-y-4 ">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Question Review</h2>
 
           {results.questions.map((question, index) => {
             const userAnswer = results.userAnswers[index];

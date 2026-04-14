@@ -96,12 +96,13 @@ const EditProfile = () => {
   // Handle account deletion
   const handleDeleteAccount = () => {
     toast.success("Account deleted successfully");
-    localStorage.removeItem("authToken");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/login");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8 px-4 sm:px-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-6 sm:py-8 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         
         {/* Header with Back Button */}
@@ -113,28 +114,28 @@ const EditProfile = () => {
         </button>
 
         {/* Page Title */}
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Settings & Profile</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6 sm:mb-8">Settings & Profile</h1>
 
         {/* PROFILE SECTION */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 mb-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-            <FaUserCircle size={28} className="text-blue-600" /> Profile Picture
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 mb-5 sm:mb-6">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 flex items-center gap-2">
+            <FaUserCircle size={24} className="text-blue-600" /> Profile Picture
           </h2>
 
-          <div className="flex flex-col sm:flex-row items-center gap-6">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
             {/* Profile Photo */}
             <div className="relative group">
-              <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center border-4 border-white shadow-lg">
+              <div className="w-24 sm:w-32 h-24 sm:h-32 rounded-full overflow-hidden bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center border-4 border-white shadow-lg">
                 {profilePic ? (
                   <img src={profilePic} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
-                  <FaUserCircle size={100} className="text-white" />
+                  <FaUserCircle size={60} className="text-white sm:size-[100px]" />
                 )}
               </div>
               
               {/* Camera Icon Overlay */}
-              <label className="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full cursor-pointer shadow-lg transition-all group-hover:scale-110">
-                <HiOutlineCamera size={20} />
+              <label className="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white p-2 sm:p-3 rounded-full cursor-pointer shadow-lg transition-all group-hover:scale-110">
+                <HiOutlineCamera size={16} className="sm:size-[20px]" />
                 <input
                   type="file"
                   onChange={handlePhotoChange}
@@ -145,14 +146,14 @@ const EditProfile = () => {
             </div>
 
             {/* Photo Info */}
-            <div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Change Profile Picture</h3>
-              <p className="text-sm text-gray-600 mb-4">
+            <div className="text-center sm:text-left">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">Change Profile Picture</h3>
+              <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
                 Upload a JPG, PNG or GIF image (max 5MB)
               </p>
               <button
                 onClick={() => setProfilePic(null)}
-                className="text-sm text-red-500 hover:text-red-700 font-medium transition-colors"
+                className="text-xs sm:text-sm text-red-500 hover:text-red-700 font-medium transition-colors"
               >
                 Remove Photo
               </button>
@@ -161,39 +162,39 @@ const EditProfile = () => {
         </div>
 
         {/* STATS SECTION */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform">
-            <p className="text-4xl font-bold mb-2">{totalQuizzes}</p>
-            <p className="text-blue-100 text-sm font-medium">Total Quizzes</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 mb-5 sm:mb-6">
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 text-center transform hover:scale-105 transition-transform">
+            <p className="text-2xl sm:text-4xl font-bold mb-1 sm:mb-2">{totalQuizzes}</p>
+            <p className="text-blue-100 text-xs sm:text-sm font-medium">Total Quizzes</p>
           </div>
-          <div className="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-2xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform">
-            <p className="text-4xl font-bold mb-2">{averageScore}%</p>
-            <p className="text-green-100 text-sm font-medium">Average Score</p>
+          <div className="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 text-center transform hover:scale-105 transition-transform">
+            <p className="text-2xl sm:text-4xl font-bold mb-1 sm:mb-2">{averageScore}%</p>
+            <p className="text-green-100 text-xs sm:text-sm font-medium">Average Score</p>
           </div>
-          <div className="bg-gradient-to-br from-amber-500 to-amber-600 text-white rounded-2xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform">
-            <p className="text-4xl font-bold mb-2">★</p>
-            <p className="text-amber-100 text-sm font-medium">Rank Badge</p>
+          <div className="bg-gradient-to-br from-amber-500 to-amber-600 text-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 text-center transform hover:scale-105 transition-transform">
+            <p className="text-2xl sm:text-4xl font-bold mb-1 sm:mb-2">★</p>
+            <p className="text-amber-100 text-xs sm:text-sm font-medium">Rank Badge</p>
           </div>
         </div>
 
         {/* PERSONAL INFO SECTION */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 mb-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-              <HiPencil size={28} className="text-blue-600" /> Personal Information
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 mb-5 sm:mb-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-0">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-2">
+              <HiPencil size={24} className="text-blue-600" /> Personal Information
             </h2>
             <button
               onClick={() => setIsEditing(!isEditing)}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
+              className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs sm:text-sm font-medium transition-colors w-full sm:w-auto"
             >
               {isEditing ? "Cancel" : "Edit"}
             </button>
           </div>
 
-          <form onSubmit={handleSaveProfile} className="space-y-5">
+          <form onSubmit={handleSaveProfile} className="space-y-4 sm:space-y-5">
             {/* Name Field */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">
                 Full Name
               </label>
               <input
@@ -202,13 +203,13 @@ const EditProfile = () => {
                 value={formData.name}
                 onChange={handleChange}
                 disabled={!isEditing}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none disabled:bg-gray-100 disabled:text-gray-600 transition-all"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none disabled:bg-gray-100 disabled:text-gray-600 transition-all text-sm sm:text-base"
               />
             </div>
 
             {/* Email Field (Read-only) */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">
                 Email Address
               </label>
               <input
@@ -216,14 +217,14 @@ const EditProfile = () => {
                 name="email"
                 value={formData.email}
                 disabled
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-300 rounded-lg bg-gray-100 text-gray-600 text-sm sm:text-base"
               />
               <p className="text-xs text-gray-500 mt-1">Email cannot be changed for security reasons</p>
             </div>
 
             {/* Bio Field */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">
                 Bio / About
               </label>
               <textarea
@@ -232,7 +233,7 @@ const EditProfile = () => {
                 onChange={handleChange}
                 disabled={!isEditing}
                 rows="4"
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none disabled:bg-gray-100 disabled:text-gray-600 resize-none transition-all"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none disabled:bg-gray-100 disabled:text-gray-600 resize-none transition-all text-sm sm:text-base"
                 placeholder="Tell us about yourself..."
               />
             </div>
@@ -241,7 +242,7 @@ const EditProfile = () => {
             {isEditing && (
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 rounded-lg hover:shadow-lg transition-all hover:scale-105"
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-2 sm:py-3 rounded-lg hover:shadow-lg transition-all hover:scale-105 text-sm sm:text-base"
               >
                 Save Changes
               </button>
@@ -250,15 +251,15 @@ const EditProfile = () => {
         </div>
 
         {/* SECURITY SECTION */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 mb-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-            <FaLock size={28} className="text-green-600" /> Account Security
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 mb-5 sm:mb-6">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 flex items-center gap-2">
+            <FaLock size={24} className="text-green-600" /> Account Security
           </h2>
 
-          <form onSubmit={handlePasswordChange} className="space-y-5">
+          <form onSubmit={handlePasswordChange} className="space-y-4 sm:space-y-5">
             {/* Current Password */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">
                 Current Password
               </label>
               <input
@@ -266,13 +267,13 @@ const EditProfile = () => {
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 placeholder="Enter your current password"
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:outline-none transition-all"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:outline-none transition-all text-sm sm:text-base"
               />
             </div>
 
             {/* New Password */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">
                 New Password
               </label>
               <input
@@ -280,13 +281,13 @@ const EditProfile = () => {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Enter new password (min 8 characters)"
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:outline-none transition-all"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:outline-none transition-all text-sm sm:text-base"
               />
             </div>
 
             {/* Confirm Password */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-2">
                 Confirm Password
               </label>
               <input
@@ -294,7 +295,7 @@ const EditProfile = () => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm your new password"
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:outline-none transition-all"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:outline-none transition-all text-sm sm:text-base"
               />
             </div>
 
