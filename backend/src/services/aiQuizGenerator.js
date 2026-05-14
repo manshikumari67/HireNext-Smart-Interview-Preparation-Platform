@@ -1,4 +1,5 @@
 const { Mistral } = require("@mistralai/mistralai");
+const logger = require('../utils/logger');
 
 const client = new Mistral({
   apiKey: process.env.MISTRAL_API_KEY,
@@ -24,7 +25,7 @@ Return ONLY JSON array. No text before or after.
 
     let text = response.choices[0].message.content;
 
-    console.log("RAW AI RESPONSE:", text); // debug
+    logger.debug('RAW AI RESPONSE:', text);
 
     // 🔥 STEP 1: clean markdown
     text = text.replace(/```json|```/g, "").trim();
@@ -45,7 +46,7 @@ Return ONLY JSON array. No text before or after.
     return parsed;
 
   } catch (error) {
-    console.error("Mistral AI Error:", error.message);
+    logger.error('Mistral AI Error:', error.message);
     return [];
   }
 };

@@ -262,7 +262,7 @@ The backend is structured with 6 main route files, each handling specific functi
 #### 2. **emailService.js**
 - `sendOTP()` - Generates and sends 6-digit OTP via email
 - `generateOTP()` - Creates random 6-digit numbers
-- Uses Nodemailer with Gmail SMTP
+- Uses SendGrid via `@sendgrid/mail`
 - Handles email sending with error management
 
 #### 3. **seedData.js**
@@ -414,11 +414,11 @@ Use these exact strings in topic-related endpoints:
 ### Production Environment Variables
 ```env
 NODE_ENV=production
-MONGODB_URI=<production-mongodb-atlas-url>
+MONGODB_URL=<production-mongodb-atlas-url>
 JWT_SECRET=<long-random-secret-32-chars-min>
 FRONTEND_URL=<your-production-domain>
-EMAIL_USER=<production-email>
-EMAIL_PASSWORD=<app-password>
+SENDGRID_API_KEY=<sendgrid-api-key>
+SENDGRID_EMAIL=<verified-sender@domain.com>
 PORT=5000
 ```
 
@@ -459,7 +459,7 @@ Authentication & Security:
 ├── JWT (Token-based auth)
 ├── bcryptjs (Password hashing)
 ├── express-validator (Input validation)
-└── Nodemailer (Email service)
+└── @sendgrid/mail (Email service)
 
 Development:
 ├── nodemon (Auto-reload)
@@ -513,14 +513,14 @@ Every backend response follows this consistent format:
 **Problem**: `Error connecting to MongoDB: ...`
 **Solution**:
 - Ensure MongoDB is running (`mongod`)
-- Check `MONGODB_URI` in `.env`
+- Check `MONGODB_URL` in `.env`
 - For Atlas: verify IP whitelist includes your IP
 
 ### Email/OTP Not Sending
 **Problem**: OTP not received in email
 **Solution**:
 - Use Gmail App Password (not regular password)
-- Verify `EMAIL_USER` and `EMAIL_PASSWORD` in `.env`
+- Verify `SENDGRID_API_KEY` and `SENDGRID_EMAIL` in `.env`
 - Check email inbox and spam folder
 
 ### CORS Error from Frontend

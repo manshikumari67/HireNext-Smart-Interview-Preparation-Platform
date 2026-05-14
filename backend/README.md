@@ -27,7 +27,7 @@ This is a **production-ready REST API** built with modern web technologies:
 - **Node.js + Express.js** - Fast, scalable web framework
 - **MongoDB + Mongoose** - Flexible, developer-friendly database
 - **JWT** - Secure stateless authentication
-- **Nodemailer** - Email service for OTP delivery
+- **SendGrid (@sendgrid/mail)** - Email service for OTP delivery
 - **express-validator** - Comprehensive input validation
 
 **Capabilities:**
@@ -73,7 +73,7 @@ This installs all required packages including:
 - `jsonwebtoken` - JWT authentication
 - `bcryptjs` - Password hashing
 - `express-validator` - Input validation
-- `nodemailer` - Email service
+- `@sendgrid/mail` - Email service
 - `cors` - Cross-origin requests
 - `dotenv` - Environment variables
 
@@ -87,18 +87,16 @@ PORT=5000
 NODE_ENV=development
 
 # Database Configuration
-MONGODB_URI=mongodb://localhost:27017/nexthire
+MONGODB_URL=mongodb://localhost:27017/nexthire
 # For MongoDB Atlas (cloud): mongodb+srv://username:password@cluster.mongodb.net/nexthire
 
 # Authentication
 JWT_SECRET=your_super_secret_jwt_key_change_this_in_production_12345
 JWT_EXPIRE=7d
 
-# Email Configuration (Gmail SMTP)
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASSWORD=your_app_password_here
-EMAIL_SMTP=smtp.gmail.com
-EMAIL_PORT=587
+# Email Configuration (SendGrid)
+SENDGRID_API_KEY=your_sendgrid_api_key_here
+SENDGRID_EMAIL=your_verified_sendgrid_email@example.com
 
 # Frontend Configuration
 FRONTEND_URL=http://localhost:5173
@@ -125,9 +123,9 @@ mongod
 1. Create free account at [mongodb.com](https://mongodb.com)
 2. Create a cluster
 3. Get connection string from Atlas dashboard
-4. Update `MONGODB_URI` in `.env`:
+4. Update `MONGODB_URL` in `.env`:
    ```env
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/nexthire
+  MONGODB_URL=mongodb+srv://username:password@cluster.mongodb.net/nexthire
    ```
 5. Add your IP to IP Whitelist in Atlas
 
@@ -912,11 +910,11 @@ Get current user's rank and position on leaderboard.
 ```env
 NODE_ENV=production
 PORT=5000
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/nexthire
+MONGODB_URL=mongodb+srv://username:password@cluster.mongodb.net/nexthire
 JWT_SECRET=<generate-long-random-secret-32-chars-minimum>
 JWT_EXPIRE=7d
-EMAIL_USER=<production-email@domain.com>
-EMAIL_PASSWORD=<app-specific-password>
+SENDGRID_API_KEY=<sendgrid-api-key>
+SENDGRID_EMAIL=<verified-sender@domain.com>
 FRONTEND_URL=<https://yourdomain.com>
 OTP_EXPIRY=10
 ```
@@ -997,17 +995,16 @@ Use these exact strings for all topic-related endpoints:
 **Error**: `Error connecting to MongoDB: MongoNetworkError`
 **Solutions**:
 - Verify MongoDB is running: `mongod`
-- Check `MONGODB_URI` in `.env` is correct
+- Check `MONGODB_URL` in `.env` is correct
 - For Atlas: ensure your IP is in IP Whitelist
 - For local: ensure MongoDB service is started
 
 ### Email/OTP Not Sending
 **Error**: OTP not received in email
 **Solutions**:
-- For Gmail: use App Password, not regular password
-- Enable 2-Step Verification on Gmail first
-- Check spam folder
-- Verify `EMAIL_USER` and `EMAIL_PASSWORD` in `.env`
+- Verify `SENDGRID_API_KEY` and `SENDGRID_EMAIL` in `.env`
+- Confirm the sender email is verified in SendGrid
+- Check spam folder and SendGrid activity logs
 
 ### CORS Error from Frontend
 **Error**: `Access to XMLHttpRequest blocked by CORS`

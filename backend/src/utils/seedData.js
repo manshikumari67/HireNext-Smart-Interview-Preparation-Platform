@@ -3,15 +3,16 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const Quiz = require('../models/Quiz');
 const connectDB = require('../config/database');
+const logger = require('./logger');
 
 const seedData = async () => {
   try {
     await connectDB();
-    console.log('Database connected for seeding...');
+    logger.info('Database connected for seeding...');
 
     // Clear existing data
     await Quiz.deleteMany({});
-    console.log('Cleared existing quiz data');
+    logger.info('Cleared existing quiz data');
 
     // Sample Quiz Questions
     const quizzes = [
@@ -228,22 +229,22 @@ const seedData = async () => {
 
     // Insert all quizzes
     const insertedQuizzes = await Quiz.insertMany(quizzes);
-    console.log(`✅ Successfully seeded ${insertedQuizzes.length} quiz questions`);
+    logger.info(`Successfully seeded ${insertedQuizzes.length} quiz questions`);
 
     // Count by topic
     const stats = await Quiz.aggregate([
       { $group: { _id: "$topic", count: { $sum: 1 } } }
     ]);
 
-    console.log('\n📊 Topics distributed:');
+    logger.info('\nTopics distributed:');
     stats.forEach(stat => {
-      console.log(`   ${stat._id}: ${stat.count} questions`);
+      logger.info(`   ${stat._id}: ${stat.count} questions`);
     });
 
-    console.log('\n✅ Seeding completed successfully!');
+    logger.info('Seeding completed successfully');
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error seeding data:', error);
+    logger.error('Error seeding data:', error);
     process.exit(1);
   }
 };

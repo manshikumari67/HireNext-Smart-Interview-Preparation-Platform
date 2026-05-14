@@ -16,7 +16,8 @@ exports.getQuizByTopic = async (req, res) => {
     if (quiz.length < limit) {
       const needed = limit - quiz.length;
 
-      console.log(`Need ${needed} more questions from AI`);
+      const logger = require('../utils/logger');
+      logger.info(`Need ${needed} more questions from AI`);
 
       const aiQuestions = await generateQuiz(topic, needed);
 
@@ -53,10 +54,11 @@ exports.getQuizByTopic = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Quiz Error:", error);
+    const logger = require('../utils/logger');
+    logger.error('Quiz Error:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching quiz"
+      message: 'Error fetching quiz'
     });
   }
 };
@@ -70,18 +72,18 @@ exports.submitQuiz = async (req, res) => {
     // Validate topic
     const validTopics = ['JavaScript', 'React', 'DBMS', 'Node.js', 'MongoDB', 'System Design'];
     if (!validTopics.includes(topic)) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        message: 'Invalid topic' 
+        message: 'Invalid topic'
       });
     }
 
     // Fetch quiz questions
     const quizzes = await Quiz.find({ topic });
     if (quizzes.length === 0) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'Quiz not found for this topic' 
+        message: 'Quiz not found for this topic'
       });
     }
 
@@ -89,37 +91,37 @@ exports.submitQuiz = async (req, res) => {
     let correctAnswers = 0;
     const answerDetails = [];
 
-   // 🔥 Create map (ID based matching)
-const quizMap = {};
-quizzes.forEach(q => {
-  quizMap[q._id.toString()] = q;
-});
+    // 🔥 Create map (ID based matching)
+    const quizMap = {};
+    quizzes.forEach(q => {
+      quizMap[q._id.toString()] = q;
+    });
 
-// 🔥 Correct evaluation
-answers.forEach(answer => {
-  const quiz = quizMap[answer.questionId];
+    // 🔥 Correct evaluation
+    answers.forEach(answer => {
+      const quiz = quizMap[answer.questionId];
 
-  if (!quiz) return;
+      if (!quiz) return;
 
-  const isCorrect = quiz.correctAnswer === answer.selectedAnswer;
+      const isCorrect = quiz.correctAnswer === answer.selectedAnswer;
 
-  if (isCorrect) {
-    correctAnswers += 1;
-  }
+      if (isCorrect) {
+        correctAnswers += 1;
+      }
 
-  answerDetails.push({
-    questionId: quiz._id,
-    selectedAnswer: answer.selectedAnswer,
-    isCorrect
-  });
-});
+      answerDetails.push({
+        questionId: quiz._id,
+        selectedAnswer: answer.selectedAnswer,
+        isCorrect
+      });
+    });
     const totalQuestions = answers.length;
     const score = correctAnswers;
     const percentage = Math.round((correctAnswers / totalQuestions) * 100);
 
     // Save result
     const result = new QuizResult({
-      userId, 
+      userId,
       topic,
       totalQuestions,
       correctAnswers,
@@ -157,11 +159,11 @@ answers.forEach(answer => {
       }
     });
   } catch (error) {
-    console.error('Submit quiz error:', error);
-    res.status(500).json({ 
+    const logger = require('../utils/logger');
+    logger.error('Submit quiz error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error submitting quiz',
-      error: error.message
+      message: 'Server error submitting quiz'
     });
   }
 };
@@ -193,11 +195,11 @@ exports.getUserResults = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Get results error:', error);
-    res.status(500).json({ 
+    const logger = require('../utils/logger');
+    logger.error('Get results error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error fetching results',
-      error: error.message
+      message: 'Server error fetching results'
     });
   }
 };
@@ -211,17 +213,17 @@ exports.getResultDetail = async (req, res) => {
     const result = await QuizResult.findById(resultId).populate('userId', 'name email');
 
     if (!result) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'Result not found' 
+        message: 'Result not found'
       });
     }
 
     // Check if result belongs to user
     if (result.userId._id.toString() !== userId) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         success: false,
-        message: 'Not authorized to view this result' 
+        message: 'Not authorized to view this result'
       });
     }
 
@@ -231,11 +233,11 @@ exports.getResultDetail = async (req, res) => {
       data: result
     });
   } catch (error) {
-    console.error('Get result detail error:', error);
-    res.status(500).json({ 
+    const logger = require('../utils/logger');
+    logger.error('Get result detail error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error fetching result',
-      error: error.message
+      message: 'Server error fetching result'
     });
   }
 };

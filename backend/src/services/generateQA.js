@@ -1,4 +1,5 @@
 const { Mistral } = require("@mistralai/mistralai");
+const logger = require('../utils/logger');
 
 const client = new Mistral({
   apiKey: process.env.MISTRAL_API_KEY,
@@ -7,12 +8,12 @@ const client = new Mistral({
 const generateQA = async (topic, num = 20) => {
   try {
     if (!process.env.MISTRAL_API_KEY) {
-      console.error("❌ MISTRAL_API_KEY not configured");
+      logger.error('MISTRAL_API_KEY not configured');
       return [];
     }
 
     if (!topic || num < 1) {
-      console.error(`❌ Invalid parameters: topic=${topic}, num=${num}`);
+      logger.error(`Invalid parameters: topic=${topic}, num=${num}`);
       return [];
     }
 
@@ -29,7 +30,7 @@ Return ONLY a JSON array like:
 Do not include markdown, explanations, or any text outside the JSON array.
 `;
 
-    console.log(`🤖 Calling Mistral API for topic: ${topic}, count: ${num}`);
+    logger.info(`Calling Mistral API for topic: ${topic}, count: ${num}`);
 
     const response = await client.chat.complete({
       model: "mistral-small-latest",
@@ -37,7 +38,7 @@ Do not include markdown, explanations, or any text outside the JSON array.
     });
 
     if (!response?.choices?.[0]?.message?.content) {
-      console.error("❌ Empty response from Mistral API");
+      logger.error('Empty response from Mistral API');
       return [];
     }
 
@@ -51,7 +52,7 @@ Do not include markdown, explanations, or any text outside the JSON array.
     const end = text.lastIndexOf("]");
 
     if (start === -1 || end === -1) {
-      console.error("❌ No JSON array found in response:", text.substring(0, 100));
+      logger.error('No JSON array found in response:', text.substring(0, 100));
       return [];
     }
 
@@ -60,29 +61,25 @@ Do not include markdown, explanations, or any text outside the JSON array.
 
     // Validate parsed data
     if (!Array.isArray(parsed)) {
-      console.error("❌ Parsed JSON is not an array");
+      logger.error('Parsed JSON is not an array');
       return [];
     }
 
     // Validate each item has question and answer
-    const validated = parsed.filter(item => 
-      item.question && 
-      typeof item.question === 'string' && 
+    const validated = parsed.filter(item =>
+      item.question &&
+      typeof item.question === 'string' &&
       item.question.trim().length > 0 &&
-      item.answer && 
-      typeof item.answer === 'string' && 
+      item.answer &&
+      typeof item.answer === 'string' &&
       item.answer.trim().length > 0
     );
 
-    console.log(`✅ Successfully generated ${validated.length} Q&A pairs`);
+    logger.info(`Successfully generated ${validated.length} Q&A pairs`);
     return validated;
 
   } catch (error) {
-    console.error("❌ AI Generation Error:", {
-      message: error.message,
-      topic,
-      num
-    });
+    logger.error('AI Generation Error', { message: error.message, topic, num });
     return [];
   }
 };

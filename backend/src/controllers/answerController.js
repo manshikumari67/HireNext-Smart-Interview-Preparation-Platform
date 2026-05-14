@@ -1,6 +1,7 @@
 
 const Answer = require('../models/Answer');
 const Question = require('../models/Question');
+const logger = require('../utils/logger');
 
 // ==================== CREATE ANSWER ====================
 exports.createAnswer = async (req, res) => {
@@ -11,9 +12,9 @@ exports.createAnswer = async (req, res) => {
     // Check if question exists
     const question = await Question.findById(questionId);
     if (!question) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'Question not found' 
+        message: 'Question not found'
       });
     }
 
@@ -39,11 +40,10 @@ exports.createAnswer = async (req, res) => {
       data: newAnswer
     });
   } catch (error) {
-    console.error('Create answer error:', error);
-    res.status(500).json({ 
+    logger.error('Create answer error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error creating answer',
-      error: error.message
+      message: 'Server error creating answer'
     });
   }
 };
@@ -63,11 +63,10 @@ exports.getAnswers = async (req, res) => {
       data: answers
     });
   } catch (error) {
-    console.error('Get answers error:', error);
-    res.status(500).json({ 
+    logger.error('Get answers error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error fetching answers',
-      error: error.message
+      message: 'Server error fetching answers'
     });
   }
 };
@@ -80,9 +79,9 @@ exports.likeAnswer = async (req, res) => {
 
     const answer = await Answer.findById(id);
     if (!answer) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'Answer not found' 
+        message: 'Answer not found'
       });
     }
 
@@ -108,11 +107,10 @@ exports.likeAnswer = async (req, res) => {
       data: answer
     });
   } catch (error) {
-    console.error('Like answer error:', error);
-    res.status(500).json({ 
+    logger.error('Like answer error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error liking answer',
-      error: error.message
+      message: 'Server error liking answer'
     });
   }
 };
@@ -125,16 +123,16 @@ exports.deleteAnswer = async (req, res) => {
 
     const answer = await Answer.findById(id);
     if (!answer) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'Answer not found' 
+        message: 'Answer not found'
       });
     }
 
     if (answer.author.toString() !== userId) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         success: false,
-        message: 'Not authorized to delete this answer' 
+        message: 'Not authorized to delete this answer'
       });
     }
 
@@ -155,11 +153,10 @@ exports.deleteAnswer = async (req, res) => {
       message: 'Answer deleted successfully'
     });
   } catch (error) {
-    console.error('Delete answer error:', error);
-    res.status(500).json({ 
+    logger.error('Delete answer error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error deleting answer',
-      error: error.message
+      message: 'Server error deleting answer'
     });
   }
 };
@@ -172,18 +169,18 @@ exports.markAsAccepted = async (req, res) => {
 
     const answer = await Answer.findById(id);
     if (!answer) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'Answer not found' 
+        message: 'Answer not found'
       });
     }
 
     // Verify user is question author
     const question = await Question.findById(answer.questionId);
     if (question.author.toString() !== userId) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         success: false,
-        message: 'Only question author can mark answer as accepted' 
+        message: 'Only question author can mark answer as accepted'
       });
     }
 
@@ -197,11 +194,10 @@ exports.markAsAccepted = async (req, res) => {
       data: answer
     });
   } catch (error) {
-    console.error('Mark accepted error:', error);
-    res.status(500).json({ 
+    logger.error('Mark accepted error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error marking answer',
-      error: error.message
+      message: 'Server error marking answer'
     });
   }
 };

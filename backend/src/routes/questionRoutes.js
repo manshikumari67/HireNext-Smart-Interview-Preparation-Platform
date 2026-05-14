@@ -7,11 +7,11 @@ const authenticate = require('../middleware/authenticate');
 // ==================== PUBLIC ROUTES ====================
 router.get('/', questionController.getAllQuestions);
 
-// Get questions by topic
-router.get('/:topic', questionController.getQuestionsByTopic);
-
 // Get single question
 router.get('/detail/:id', questionController.getQuestion);
+
+// Get questions by topic
+router.get('/:topic', questionController.getQuestionsByTopic);
 
 
 // ==================== PROTECTED ROUTES ====================

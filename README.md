@@ -104,7 +104,7 @@ Perfect for developers preparing for technical interviews across multiple domain
 | **Mongoose** | MongoDB ODM |
 | **JWT** | Authentication tokens |
 | **bcryptjs** | Password hashing |
-| **Nodemailer** | Email service |
+| **SendGrid (@sendgrid/mail)** | Email service |
 
 ### AI Integration
 | Service | Purpose |
@@ -217,18 +217,16 @@ PORT=5000
 NODE_ENV=development
 
 # Database Configuration
-MONGODB_URI=mongodb://localhost:27017/nexthire
+MONGODB_URL=mongodb://localhost:27017/nexthire
 # OR use MongoDB Atlas: mongodb+srv://username:password@cluster.mongodb.net/nexthire
 
 # Authentication
 JWT_SECRET=your_super_secret_jwt_key
 JWT_EXPIRE=7d
 
-# Email Configuration (Gmail with App Password)
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASSWORD=your_app_password_here
-EMAIL_SMTP=smtp.gmail.com
-EMAIL_PORT=587
+# Email Configuration (SendGrid)
+SENDGRID_API_KEY=your_sendgrid_api_key_here
+SENDGRID_EMAIL=your_verified_sendgrid_email@example.com
 
 # Frontend URL
 FRONTEND_URL=http://localhost:5173
@@ -251,7 +249,7 @@ mongod
 **Option B: MongoDB Atlas (Cloud)**
 1. Create account at [mongodb.com](https://mongodb.com)
 2. Create a cluster and get connection string
-3. Update `MONGODB_URI` in `.env`
+3. Update `MONGODB_URL` in `.env`
 4. Add your IP to IP Whitelist
 
 ### 🔹 Step 5: Run the Application

@@ -4,6 +4,7 @@
  */
 
 const User = require('../models/User');
+const logger = require('../utils/logger');
 
 // ==================== GET LEADERBOARD ====================
 exports.getLeaderboard = async (req, res) => {
@@ -34,11 +35,10 @@ exports.getLeaderboard = async (req, res) => {
       data: rankedLeaderboard
     });
   } catch (error) {
-    console.error('Get leaderboard error:', error);
-    res.status(500).json({ 
+    logger.error('Get leaderboard error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error fetching leaderboard',
-      error: error.message
+      message: 'Server error fetching leaderboard'
     });
   }
 };
@@ -51,9 +51,9 @@ exports.getUserRank = async (req, res) => {
     // Get user
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'User not found' 
+        message: 'User not found'
       });
     }
 
@@ -82,11 +82,10 @@ exports.getUserRank = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Get user rank error:', error);
-    res.status(500).json({ 
+    logger.error('Get user rank error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error fetching user rank',
-      error: error.message
+      message: 'Server error fetching user rank'
     });
   }
 };

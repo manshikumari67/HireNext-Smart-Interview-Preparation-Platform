@@ -1,6 +1,7 @@
 const Question = require('../models/Question');
 const Answer = require('../models/Answer');
 const generateQA = require('../services/generateQA');
+const logger = require('../utils/logger');
 
 // ==================== HELPER ====================
 const normalizeTopic = (topic) => {
@@ -25,7 +26,7 @@ exports.getQuestionsByTopic = async (req, res) => {
 
     // ✅ normalize
     topic = normalizeTopic(topic);
-    console.log("🔥 FINAL TOPIC:", topic);
+    logger.info('Final topic:', topic);
 
     const page = req.query.page || 1;
     const limit = parseInt(req.query.limit) || 30;
@@ -41,9 +42,9 @@ exports.getQuestionsByTopic = async (req, res) => {
     ];
 
     if (!validTopics.includes(topic)) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        message: 'Invalid topic' 
+        message: 'Invalid topic'
       });
     }
 
@@ -58,14 +59,14 @@ exports.getQuestionsByTopic = async (req, res) => {
 
     // ==================== AI QUESTIONS ====================
     if (finalQuestions.length < limit) {
-      console.log("🤖 Fetching AI questions for:", topic);
+      logger.info('Fetching AI questions for:', topic);
 
       const aiQuestions = await generateQA(
         topic,
         limit - finalQuestions.length
       );
 
-      // console.log("🤖 AI COUNT:", aiQuestions.length);
+      // logger.info('AI COUNT:', aiQuestions.length);
 
       const formattedAI = aiQuestions.map((q, index) => ({
         _id: `ai-${index}`, // important for React key
@@ -94,11 +95,10 @@ exports.getQuestionsByTopic = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Get questions error:', error);
-    res.status(500).json({ 
+    logger.error('Get questions error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error fetching questions',
-      error: error.message
+      message: 'Server error fetching questions'
     });
   }
 };
@@ -115,9 +115,9 @@ exports.getQuestion = async (req, res) => {
     ).populate('author', 'name _id');
 
     if (!question) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'Question not found' 
+        message: 'Question not found'
       });
     }
 
@@ -172,7 +172,7 @@ exports.createQuestion = async (req, res) => {
           });
         }
       } catch (err) {
-        console.error("AI error:", err.message);
+        logger.error('AI error:', err);
       }
     })();
 

@@ -4,16 +4,17 @@
  */
 
 const User = require('../models/User');
+const logger = require('../utils/logger');
 
 // ==================== GET USER PROFILE ====================
 exports.getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
-    
+
     if (!user) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'User not found' 
+        message: 'User not found'
       });
     }
 
@@ -32,11 +33,10 @@ exports.getUserProfile = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Get profile error:', error);
-    res.status(500).json({ 
+    logger.error('Get profile error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error fetching profile',
-      error: error.message
+      message: 'Server error fetching profile'
     });
   }
 };
@@ -55,9 +55,9 @@ exports.updateUserProfile = async (req, res) => {
     );
 
     if (!user) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'User not found' 
+        message: 'User not found'
       });
     }
 
@@ -74,11 +74,10 @@ exports.updateUserProfile = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Update profile error:', error);
-    res.status(500).json({ 
+    logger.error('Update profile error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error updating profile',
-      error: error.message
+      message: 'Server error updating profile'
     });
   }
 };
@@ -91,7 +90,7 @@ exports.updateUserStats = async (req, res) => {
 
     const user = await User.findByIdAndUpdate(
       userId,
-      { 
+      {
         score,
         totalQuizzesTaken,
         averageScore,
@@ -101,9 +100,9 @@ exports.updateUserStats = async (req, res) => {
     );
 
     if (!user) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'User not found' 
+        message: 'User not found'
       });
     }
 
@@ -118,11 +117,10 @@ exports.updateUserStats = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Update stats error:', error);
-    res.status(500).json({ 
+    logger.error('Update stats error:', error);
+    res.status(500).json({
       success: false,
-      message: 'Server error updating stats',
-      error: error.message
+      message: 'Server error updating stats'
     });
   }
 };

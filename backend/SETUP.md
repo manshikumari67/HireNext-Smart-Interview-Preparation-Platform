@@ -63,18 +63,16 @@ PORT=5000
 NODE_ENV=development
 
 # Database Configuration
-MONGODB_URI=mongodb://localhost:27017/nexthire
+MONGODB_URL=mongodb://localhost:27017/nexthire
 # For MongoDB Atlas: mongodb+srv://username:password@cluster.mongodb.net/nexthire
 
 # Authentication
 JWT_SECRET=your_super_secret_jwt_key_change_this_in_production_12345
 JWT_EXPIRE=7d
 
-# Email Configuration (Gmail SMTP)
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASSWORD=your_app_password_here
-EMAIL_SMTP=smtp.gmail.com
-EMAIL_PORT=587
+# Email Configuration (SendGrid)
+SENDGRID_API_KEY=your_sendgrid_api_key_here
+SENDGRID_EMAIL=your_verified_sendgrid_email@example.com
 
 # Frontend Configuration
 FRONTEND_URL=http://localhost:5173
@@ -83,17 +81,14 @@ FRONTEND_URL=http://localhost:5173
 OTP_EXPIRY=10
 ```
 
-#### 🔑 Gmail Setup for Email Service
+#### 🔑 SendGrid Setup for Email Service
 
-1. **Enable 2-Step Verification:**
-   - Go to Gmail Security settings
-   - Enable 2-Step Verification
+1. **Create a SendGrid account:**
+  - Sign up at SendGrid and verify your sender identity
 
-2. **Generate App Password:**
-   - Security settings → App passwords
-   - Select Mail and Windows Computer
-   - Copy the generated 16-character password
-   - Use this in `EMAIL_PASSWORD` (not your regular Gmail password)
+2. **Generate an API key:**
+  - Create a restricted API key with mail-send permissions
+  - Use this key in `SENDGRID_API_KEY`
 
 ### Step 4: Start the Backend Server
 
@@ -369,7 +364,7 @@ Error connecting to MongoDB: MongoNetworkError
 
 **Solutions:**
 - Ensure MongoDB is running: `mongod` (for local)
-- Check `MONGODB_URI` in `.env` is correct
+- Check `MONGODB_URL` in `.env` is correct
 - For Atlas: verify IP is whitelisted
 - For local: verify port 27017 is available
 
@@ -381,11 +376,10 @@ Email sending failed
 ```
 
 **Solutions:**
-- For Gmail: use App Password, not regular password
-- First enable 2-Step Verification on Gmail
-- Check `EMAIL_USER` and `EMAIL_PASSWORD` in `.env`
-- Verify email credentials are correct
-- Check spam folder for OTP email
+- Check `SENDGRID_API_KEY` and `SENDGRID_EMAIL` in `.env`
+- Verify the sender is authenticated in SendGrid
+- Confirm the API key has mail-send permissions
+- Check spam folder and SendGrid delivery logs
 
 ---
 
