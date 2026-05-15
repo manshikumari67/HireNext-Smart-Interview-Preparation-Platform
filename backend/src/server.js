@@ -25,9 +25,14 @@ const app = express();
 
 // ==================== MIDDLEWARE ====================
 
+// Sentry request handler (must be first middleware for Sentry)
+if (Sentry && typeof Sentry.Handlers?.requestHandler === 'function') {
+  app.use(Sentry.Handlers.requestHandler());
+}
+
 // CORS Configuration
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: true,
   credentials: true
 }));
 
@@ -51,11 +56,6 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // ==================== ROUTES ====================
-
-// Sentry request handler (must be first middleware for Sentry)
-if (Sentry && typeof Sentry.Handlers?.requestHandler === 'function') {
-  app.use(Sentry.Handlers.requestHandler());
-}
 
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
